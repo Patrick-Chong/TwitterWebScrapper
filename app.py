@@ -10,7 +10,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'Secret'
 
 # Make the blueprint for the twitter authorization page. (replace the api_key and api_secret)
-twitter_blueprint = make_twitter_blueprint(api_key='kuGMhGn26E70zXfV6kfyCZJ8V', api_secret='v0Am89zv5nX7nAHqWLpcMCrAHB2erNzjDaFsxMWXLpYJ6jCV23') 
+twitter_blueprint = make_twitter_blueprint(api_key='wgfSamZJxqADXsmVhECEKqWTw', api_secret='v9OCLGlciWZNkCyL7kNo6LoAfKQM4KfXH3Lp6LJixdRz0wkzfi') 
 
 #initiate the twitter auth process to get the user token for twitter API
 app.register_blueprint(twitter_blueprint, url_prefix='/twitter_login') 
