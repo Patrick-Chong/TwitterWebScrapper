@@ -33,39 +33,43 @@ def twitter_login():
     tweet_rts = []
     tweeter_followers = []
     
-    print(account_timeline_json)
+    print(account_timeline_json.json())
     if account_timeline_json.ok:
         
         if account_timeline_json:
         # iterate through all the 20 tweets' data
             for i in range(20):
-                
-                # fetch the tweet like from the above API get and append it to the list
-                tweet_like = numerize.numerize(account_timeline_json.json()[i]['favorite_count'])
-                tweet_likes.append(tweet_like)
-                
-                # fetch the tweet text from the above API get and append it to the list
-                tweet_text = account_timeline_json.json()[i]['full_text']
-                tweet_texts.append(tweet_text)   
-                
-                # fetch the tweet date from the above API get and append it to the list
-                tweet_date = account_timeline_json.json()[i]['created_at']
-                tweet_dates.append(tweet_date)
-                
-                # fetch the tweet rt_count from the above API get and append it to the list
-                tweet_rt = numerize.numerize(account_timeline_json.json()[i]['retweet_count'])
-                tweet_rts.append(tweet_rt)
-                
-                # fetch the tweet follower count from the above API get and append it to the list
-                tweet_follower_count = numerize.numerize(account_timeline_json.json()[i]['user']['followers_count'])
-                tweeter_followers.append(tweet_follower_count)
-                
-                # fetch the tweeter id like from the above API get and append it to the list
-                tweeter_name_id = account_timeline_json.json()[i]['user']['screen_name']
-                tweeter_name.append(tweeter_name_id)
+                try:
+                    
+                    # fetch the tweet text from the above API get and append it to the list
+                    tweet_text = account_timeline_json.json()[i]['full_text']
+                    tweet_texts.append(tweet_text)   
+                    
+                    # fetch the tweet date from the above API get and append it to the list
+                    tweet_date = account_timeline_json.json()[i]['created_at']
+                    tweet_dates.append(tweet_date)
+                    
+                    # fetch the tweet rt_count from the above API get and append it to the list
+                    tweet_rt = numerize.numerize(account_timeline_json.json()[i]['retweet_count'])
+                    tweet_rts.append(tweet_rt)
+                    
+                    # fetch the tweet follower count from the above API get and append it to the list
+                    tweet_follower_count = numerize.numerize(account_timeline_json.json()[i]['user']['followers_count'])
+                    tweeter_followers.append(tweet_follower_count)
+                    
+                    # fetch the tweeter id like from the above API get and append it to the list
+                    tweeter_name_id = account_timeline_json.json()[i]['user']['screen_name']
+                    tweeter_name.append(tweeter_name_id)
+                    
+                    # fetch the tweet like from the above API get and append it to the list
+                    tweet_like = numerize.numerize(account_timeline_json.json()[i]['favorite_count'])
+                    tweet_likes.append(tweet_like)
+                except IndexError:
+                    print('exception occured, skipping')
+                    continue
 
         # pass the collected lists containing the variables required to the HTML file to display it
-            return render_template('index.html', tweet_rts=tweet_rts, tweet_texts=tweet_texts, tweet_likes=tweet_likes, tweet_dates = tweet_dates, tweeter_followers=tweeter_followers, tweeter_name=tweeter_name)
+            return render_template('index.html', length=min(len(tweet_texts),len(tweet_rts),len(tweeter_followers), len(tweeter_name), len(tweet_likes)), tweet_rts=tweet_rts, tweet_texts=tweet_texts, tweet_likes=tweet_likes, tweet_dates = tweet_dates, tweeter_followers=tweeter_followers, tweeter_name=tweeter_name)
     
     return '<h1>Error</h1>'
 
